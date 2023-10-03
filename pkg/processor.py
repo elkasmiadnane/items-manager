@@ -1,24 +1,21 @@
+from pkg.parser import DB
 class Item():
-    def __init__(self,repr,name):
-        self.repr = repr
+    def __init__(self,id_,name,exists,link,status):
+        self.id = id_
         self.name = name
+        self.exists = exists
+        self.link = link
+        self.status = status
 
 class Processor(Item):
 
-    def find(self) -> bool:
+    def _check_item_exists(self,item:Item,database:dict):
+        values = database.keys()
+        if(item.id in values):
+            return True
+        return False
+    def _insert_to_db(self,item:Item):
+        print("Inserting")
 
-        with open('./input/repo.txt', 'r+') as repo:
-            content = repo.read()
-        repo.close()
-        if content.__contains__(self.name):
-            self.exists = True
-        else:
-            self.exists = False
 
-        return self.exists
-    def insert(self):
-        if not(self.find(self.name)):
-            with open('./input/repo.txt','a') as repo:
-                repo.write(f"\n{self.name}")
-        else:print(self.name,"already exists!")
 
