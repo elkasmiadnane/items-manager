@@ -1,4 +1,4 @@
-from pkg.parser import DB
+from pkg.parser import DB,parseId
 class Item():
     def __init__(self,id_,name,exists,link,status):
         self.id = id_
@@ -9,13 +9,22 @@ class Item():
 
 class Processor(Item):
 
-    def _check_item_exists(self,item:Item,database:dict):
+    def _check_item_exists(self,item:Item,database:dict) -> Item:
         values = database.keys()
         if(item.id in values):
-            return True
-        return False
-    def _insert_to_db(self,item:Item):
-        print("Inserting")
+            itm = database[item.id]
+            itm = Processor(item.id,itm['name'],itm['exists'],itm['link'],itm['status'])
+            return itm
 
+    def _insert_to_db(self):
+        dictItem = {'id':self.id,
+                    'name' :self.name,
+                    'link' :self.link,
+                    'exists' :'yes',
+                    'status' :self.status}
+        db = DB.insert_row(dictItem)
+
+    def _delete_from_db(self,row:int):
+        db = DB.delete_row(row)
 
 

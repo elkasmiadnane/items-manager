@@ -5,8 +5,6 @@ db = './input/db.xlsx'
 wb = xl.load_workbook(db)
 ws = wb.active
 
-dbObject = {}
-
 def parseId(name:str):
     id = re.sub("\.","",
             re.sub("-","",
@@ -14,6 +12,7 @@ def parseId(name:str):
                        re.sub("_","",name))))
     return id
 def dbToDict():
+    dbObject = {}
     counter = 0
     for index,row in enumerate(ws):
         #print (index)
@@ -40,3 +39,15 @@ class DB():
     def getDB(self):
         database = dbToDict()
         return database
+
+    def insert_row(data:dict):
+        rowIndex = int(ws.max_row+1)
+        ws.insert_rows(rowIndex)
+        for col, value in enumerate(data.values()):
+            ws.cell(row=rowIndex, column=col+1, value= '' if value is None else str(value))
+            print(str(value))
+
+        wb.save(db)
+
+    def delete_row(row:int):
+        ws.delete_rows(row,1)
