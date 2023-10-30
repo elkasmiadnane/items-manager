@@ -17,7 +17,7 @@ def dbToDict():
     for index,row in enumerate(ws):
         #print (index)
         name = row[0].value
-        id = parseId(name)
+        id = parseId(str(name))
         exists = row[1].value
         link = row[2].value
         status = row[3].value
@@ -30,10 +30,9 @@ def dbToDict():
                                "exists" : exists ,
                                "link" : link ,
                                "status" : status}
-            else:print("Already exists", index,id)
 
 
-    print(dbObject)
+
     return dbObject
 class DB():
     def getDB(self):
@@ -46,6 +45,15 @@ class DB():
         for col, value in enumerate(data.values()):
             ws.cell(row=rowIndex, column=col+1, value= '' if value is None else str(value))
             print(str(value))
+
+        wb.save(db)
+
+    def modify_row(idx : int , data: dict):
+        for col, value in enumerate(data.values()):
+            if col>1:
+                cl = ws.cell(row=idx, column=col )
+                cl.value = '' if (value is None and str(value).lower() != "none") else str(value)
+                print(col +1,str(value) , " ----- ",data.values())
 
         wb.save(db)
 
