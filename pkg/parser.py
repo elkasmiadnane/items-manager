@@ -35,9 +35,17 @@ def dbToDict():
 
     return dbObject
 class DB():
+
     def getDB(self):
         database = dbToDict()
         return database
+
+    def getFilterVals(self,arg):
+        return {
+                'vals'  :("exists" ,"status"),
+                'exists':["Yes","No"],
+                'status':["ok","None"]
+                }
 
     def insert_row(data:dict):
         rowIndex = int(ws.max_row+1)
